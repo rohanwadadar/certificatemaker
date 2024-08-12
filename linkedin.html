@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Maker</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file if needed for additional custom styles -->
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Certificate Maker</h1>
+
+        <!-- Template Selection -->
+        <div class="form-group">
+            <label for="template-select">Select Certificate Template</label>
+            <select id="template-select" class="form-control">
+                <option value="template1">Template 1</option>
+                <option value="template2">Template 2</option>
+                <option value="template3">Template 3</option>
+                <option value="template4">Template 4</option> <!-- Existing Templates -->
+                <option value="template5">Template 5</option> <!-- New Template Option -->
+            </select>
+        </div>
+
+        <div id="certificate" class="card mb-4">
+            <div class="card-header text-center">
+                <h2>Certificate of Completion</h2>
+            </div>
+            <div class="card-body">
+                <div class="template5">
+                    <div class="left-side">
+           <!---            <img id="left-image" src="" alt="Left Image">    -->
+                    </div>
+                    <div class="right-content">
+                        <div class="text-center mb-4">
+                            <h3 id="cert-name"></h3>
+                            <p>This is to certify that <strong id="cert-course"></strong> has been successfully completed.</p>
+                            <p>Length of course: <strong id="cert-length"></strong></p>
+                            <p>Date of completion: <strong id="cert-date"></strong></p>
+                        </div>
+                        <div class="text-center mb-4">
+                            <img id="sign" src="" alt="Signature" class="mb-2">
+                            <p id="cert-company"></p>
+                            <p id="cert-position"></p>
+                        </div>
+                        <div class="text-center">
+                            <img id="logo" src="" alt="Company Logo" class="mb-2">
+                            <h4 id="cert-company-name"></h4>
+                            <h5 id="cert-company-site"></h5>
+                        </div>
+                        <div class="text-center mt-4">
+                            <h5>Certificate ID: <span id="cert-id"></span></h5>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Form remains unchanged -->
+            </div>
+        </div>
+
+        <!-- Form to enter certificate details -->
+        <div class="card">
+            <div class="card-header">Enter Certificate Details</div>
+            <div class="card-body">
+                <form id="certificate-form">
+                    <div class="form-group">
+                        <label for="name">Recipient Name</label>
+                        <input type="text" class="form-control" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="course">Course Name</label>
+                        <input type="text" class="form-control" id="course">
+                    </div>
+                    <div class="form-group">
+                        <label for="length">Length of Course</label>
+                        <input type="text" class="form-control" id="length">
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Completion Date</label>
+                        <input type="date" class="form-control" id="date">
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company Name</label>
+                        <input type="text" class="form-control" id="company">
+                    </div>
+                    <div class="form-group">
+                        <label for="position">Position</label>
+                        <input type="text" class="form-control" id="position">
+                    </div>
+                    <div class="form-group">
+                        <label for="id">Certificate ID</label>
+                        <input type="text" class="form-control" id="id">
+                    </div>
+                    <div class="form-group">
+                        <label for="signature">Signature Image</label>
+                        <input type="file" class="form-control-file" id="signature">
+                    </div>
+                    <div class="form-group">
+                        <label for="logo">Company Logo</label>
+                        <input type="file" class="form-control-file" id="logo-upload">
+                    </div>
+                    <div class="form-group">
+                        <label for="site">Company Site</label>
+                        <input type="text" class="form-control" id="site">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button id="download-pdf" type="button" class="btn btn-secondary ml-2">Download as PDF</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script>
+        document.getElementById('template-select').addEventListener('change', function() {
+            const selectedTemplate = this.value;
+            document.getElementById('certificate').className = `card mb-4 ${selectedTemplate}`;
+        });
+
+        document.getElementById('certificate-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const course = document.getElementById('course').value.trim();
+            const length = document.getElementById('length').value.trim();
+            const date = document.getElementById('date').value.trim();
+            const company = document.getElementById('company').value.trim();
+            const position = document.getElementById('position').value.trim();
+            const id = document.getElementById('id').value.trim();
+            const site = document.getElementById('site').value.trim();
+            
+            // Handle file uploads
+            const signatureFile = document.getElementById('signature').files[0];
+            const logoFile = document.getElementById('logo-upload').files[0];
+            
+            if (signatureFile) {
+                const signatureURL = URL.createObjectURL(signatureFile);
+                document.getElementById('sign').src = signatureURL;
+            }
+            
+            if (logoFile) {
+                const logoURL = URL.createObjectURL(logoFile);
+                document.getElementById('logo').src = logoURL;
+            }
+            
+            document.getElementById('cert-name').textContent = name ? name : 'Recipient Name';
+            document.getElementById('cert-course').textContent = course ? course : 'Course Name';
+            document.getElementById('cert-length').textContent = length ? length : 'Length of Course';
+            document.getElementById('cert-date').textContent = date ? date : 'Completion Date';
+            document.getElementById('cert-company').textContent = company ? company : 'Company Name';
+            document.getElementById('cert-position').textContent = position ? position : 'Position';
+            document.getElementById('cert-id').textContent = id ? id : 'Certificate ID';
+            document.getElementById('cert-company-name').textContent = company ? company : 'Company Name';
+            document.getElementById('cert-company-site').textContent = site ? site : 'Company Site';
+
+            // Reset the form
+            document.getElementById('certificate-form').reset();
+        });
+
+        document.getElementById('download-pdf').addEventListener('click', function() {
+            var element = document.getElementById('certificate');
+            var opt = {
+                margin:       0.5,
+                filename:     'Certificate.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+              };
+            html2pdf().set(opt).from(element).save();
+        });
+    </script>
+</body>
+</html>
+
+
+
+<style>/* Custom styles for file upload inputs */
+ /* Custom styles for file upload inputs */
+.form-control-file {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    background-color: #fff;
+    margin-bottom: 1rem;
+}
+
+/* Styles for uploaded images */
+#sign, #logo {
+    width: 150px; /* Fixed width for passport-size */
+    height: 150px; /* Fixed height for passport-size */
+    object-fit: cover; /* Maintain aspect ratio and cover the area */
+    border: 1px solid #ced4da; /* Optional: adds a border to the images */
+    border-radius: 0.25rem; /* Optional: rounded corners */
+    display: block;
+    margin: 0 auto; /* Center align images */
+}
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 0.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 1rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Button Styles */
+.btn-primary, .btn-secondary {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    opacity: 0.9;
+}
+
+/* Template 1 */
+.template1 {
+    border: 5px solid #007bff;
+}
+
+.template1 .card-header {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.template1 .card-body {
+    background-color: #f8f9fa;
+}
+
+/* Template 2 */
+.template2 {
+    border: 5px solid #28a745;
+}
+
+.template2 .card-header {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.template2 .card-body {
+    background-color: #e9ecef;
+}
+
+/* Template 3 */
+.template3 {
+    border: 5px solid #dc3545;
+}
+
+.template3 .card-header {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.template3 .card-body {
+    background-color: #f1f1f1;
+}
+
+/* Template 4 */
+.template4 {
+    display: flex;
+    border: 10px solid #333; /* Stylish border */
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.template4 .left-side {
+    flex: 0 0 25%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('left.png');
+    background-size: cover; /* Adjusts the image size */
+    background-position: center; /* Center the image */
+}
+
+.template4 .left-side img {
+    width: 150px; /* Fixed width for passport-size */
+    height: 150px; /* Fixed height for passport-size */
+    object-fit: cover; /* Maintain aspect ratio and cover the area */
+}
+
+.template4 .right-content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.template4 .logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.template4 .logo img {
+    width: 150px; /* Fixed width for logo */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.template4 .congrats, .template4 .course-name, .template4 .completion, .template4 .para, .template4 .certificate-id {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.template4 .authority {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.template4 .authority .part-1 {
+    text-align: center;
+}
+
+.template4 .authority .part-2 {
+    text-align: center;
+}
+
+.template4 .authority .vl {
+    border-left: 2px solid #333;
+    height: 100px;
+}
+
+.template4 .certificate-id {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Template 5 */
+.template5 {
+    display: flex;
+    border: 5px solid #333;
+    background-color: #fff;
+}
+
+.template5 .left-side {
+    flex: 0 0 30%;
+    padding: 10px;
+}
+
+.template5 .left-side img {
+    width: 150px; /* Fixed width for passport-size */
+    height: 150px; /* Fixed height for passport-size */
+    object-fit: cover; /* Maintain aspect ratio and cover the area */
+}
+
+.template5 .right-content {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Custom styles for file upload inputs */
+.form-control-file {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    background-color: #fff;
+    margin-bottom: 1rem;
+}
+
+/* Form Styles */
+form {
+    margin-bottom: 1.5rem;
+}
+
+form .form-group {
+    margin-bottom: 1rem;
+}
+
+form .form-group label {
+    font-weight: bold;
+}
+
+form .form-control {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+form .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+
+input[type="file"] {
+    padding: 0.5rem;
+}
+
+input[type="date"] {
+    padding: 0.5rem;
+}
+
+/* Additional Content Styles */
+h1, h2, h3, h4, h5 {
+    margin-bottom: 1rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+    </style>

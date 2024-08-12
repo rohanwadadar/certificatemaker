@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-image: url('pngtree-golden-blue-certificate-border-folio-f4-size-transparent-png-image_6514169.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .dark .container {
+            background-color: rgba(34, 34, 34, 0.8);
+        }
+    </style>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com">
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="container mx-auto p-8 rounded-lg shadow-2xl bg-gray-800">
+        <div class="text-center">
+            <button onclick="toggleDarkMode()" class="bg-gray-700 text-white px-4 py-2 rounded mb-4">
+                Toggle Dark Mode
+            </button>
+            <a href="app.html" class="block bg-indigo-600 text-white py-2 px-4 rounded mb-8">Back to Home</a>
+            <h1 class="text-5xl font-bold mb-6">Certificate Generator</h1>
+
+            <div id="templateSelection" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                <div class="text-center">
+                    <a href="temp1.html" class="block">
+                        <img src="img/certificate1.png" alt="Template 1" class="mx-auto rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+                        <span class="block mt-2 text-lg">Template 1</span>
+                    </a>
+                </div>
+                <div class="text-center">
+                    <a href="temp2.html" class="block">
+                        <img src="img/certificate2.png" alt="Template 2" class="mx-auto rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+                        <span class="block mt-2 text-lg">Template 2</span>
+                    </a>
+                </div>
+                <div class="text-center">
+                    <a href="temp3.html" class="block">
+                        <img src="Blue Simple Achievement Certificate.png" alt="Template 3" class="mx-auto rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+                        <span class="block mt-2 text-lg">Template 3</span>
+                    </a>
+                </div>
+                <div class="text-center">
+                    <a href="temp4.html" class="block">
+                        <img src="img/certificate4.png" alt="Template 4" class="mx-auto rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+                        <span class="block mt-2 text-lg">Template 4</span>
+                    </a>
+                </div>
+                <div class="text-center">
+                    <a href="temp5.html" class="block">
+                        <img src="img/certificate5.png" alt="Template 5" class="mx-auto rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+                        <span class="block mt-2 text-lg">Template 5</span>
+                    </a>
+                </div>
+                <div class="text-center">
+                    <a href="temp6.html" class="block">
+                        <img src="img/6.png" alt="Template 5" class="mx-auto rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+                        <span class="block mt-2 text-lg">Template 6</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark');
+        }
+    </script>
+</body>
+</html>

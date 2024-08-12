@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template 2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+  body {
+            font-family: 'Arial', sans-serif;
+            background-color: #7eff57;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: rgba(252, 188, 13, 0.236);
+            padding: 70px;
+            border-radius: 20px;
+            box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+        }
+        .mb-4{
+            font-family: cursive;
+        }
+        .mb-3{
+            font-family: cursive;
+        }
+        
+        /* Include styles specific to Template 2 */
+        .certificate-container {
+            width: 800px;
+            background-color: white;
+            padding: 20px;
+            margin: 0 auto;
+        }
+        .certificate-border {
+            border: 12px solid #004d40;
+            padding: 25px;
+            position: relative;
+        }
+        .certificate-border::before,
+        .certificate-border::after {
+            content: '';
+            position: absolute;
+            border: 3px solid #00796b;
+        }
+        .certificate-border::before {
+            top: 10px;
+            left: 10px;
+            width: calc(100% - 20px);
+            height: calc(100% - 20px);
+        }
+        .certificate-border::after {
+            top: 5px;
+            left: 5px;
+            width: calc(100% - 10px);
+            height: calc(100% - 10px);
+        }
+        .certificate-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .certificate-content h1 {
+            font-size: 40px;
+            font-family: 'Georgia', serif;
+            margin: 0;
+        }
+        .certificate-content h2 {
+            font-size: 28px;
+            margin: 10px 0;
+        }
+        .presented-to {
+            font-size: 20px;
+            margin: 20px 0 10px;
+        }
+        .certificate-content h3 {
+            font-size: 36px;
+            font-family: 'Georgia', serif;
+            margin: 10px 0;
+        }
+        .certificate-text {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+        .signatures {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .signature p {
+            margin: 5px 0;
+            text-align: center;
+        }
+        .seal {
+            width: 120px;
+            height: 120px;
+            background-color: #004d40;
+            border-radius: 50%;
+            position: relative;
+        }
+        .seal::before,
+        .seal::after {
+            content: '';
+            position: absolute;
+            border: 5px solid white;
+            border-radius: 50%;
+            top: 10px;
+            left: 10px;
+            width: calc(100% - 20px);
+            height: calc(100% - 20px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="btn btn-secondary mb-4">Back to Home</a>
+        <h1 class="mb-4">Generate Certificate - Template 2</h1>
+
+        <form id="certificateForm2">
+            <div class="mb-3">
+                <label for="recipientName" class="form-label">Recipient Name</label>
+                <input type="text" class="form-control" id="recipientName" required>
+            </div>
+            <div class="mb-3">
+                <label for="cname" class="form-label">Course Name</label>
+                <input type="text" class="form-control" id="cname" required>
+            </div>
+            <div class="mb-3">
+                <label for="certificateText" class="form-label">Certificate Text (like company name or brand name)</label>
+                <textarea class="form-control" id="certificateText" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="signature1" class="form-label">DATE</label>
+                <input type="date" class="form-control" id="signature1" required>
+            </div>
+            <div class="mb-3">
+                <label for="signature2" class="form-label">Signature 2</label>
+                <input type="text" class="form-control" id="signature2" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="generateCertificate2()">Generate Certificate</button>
+        </form>
+
+        <div id="certificatePreview2" style="display: none;">
+            <!-- Certificate preview will be inserted here -->
+        </div>
+
+        <div class="mt-3 text-center">
+            <button id="downloadPdf2" class="btn btn-success" style="display: none;">Download PDF</button>
+            <button id="downloadImg2" class="btn btn-info" style="display: none;">Download Image</button>
+        </div>
+    </div>
+    <script>
+        function generateCertificate2() {
+            const recipientName = document.getElementById('recipientName').value;
+            const certificateText = document.getElementById('certificateText').value;
+            const signature1 = document.getElementById('signature1').value;
+            const signature2 = document.getElementById('signature2').value;
+            const cname = document.getElementById('cname').value;
+
+            const certificateHTML = `
+                <div class="certificate-container">
+                    <div class="certificate-border">
+                        <div class="certificate-content">
+                            <h1>CERTIFICATE</h1>
+                            <h2>Of Achievement in ${cname}</h2>
+                            <p class="presented-to">Presented to</p>
+                            <h3>${recipientName}</h3>
+                            <p class="certificate-text">${certificateText}</p>
+                            <div class="signatures">
+                                <div class="signature">
+                                    <p>${signature1}</p>
+                                    <p>___________</p>
+                                    <p>DATE</p>
+                                </div>
+                                <div class="seal"></div>
+                                <div class="signature">
+                                    <p>${signature2}</p>
+                                    <p>___________</p>
+                                    <p>Signature</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('certificatePreview2').innerHTML = certificateHTML;
+            document.getElementById('certificatePreview2').style.display = 'block';
+            document.getElementById('downloadPdf2').style.display = 'inline-block';
+            document.getElementById('downloadImg2').style.display = 'inline-block';
+        }
+
+        document.getElementById('downloadPdf2').addEventListener('click', function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('l', 'pt', 'a4');
+            
+            html2canvas(document.querySelector('#certificatePreview2 > div')).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgProps = doc.getImageProperties(imgData);
+                const pdfWidth = doc.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                doc.save('certificate2.pdf');
+            });
+        });
+
+        document.getElementById('downloadImg2').addEventListener('click', function() {
+            html2canvas(document.querySelector('#certificatePreview2 > div')).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = imgData;
+                link.download = 'certificate2.png';
+                link.click();
+            });
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+
+</body>
+</html>
